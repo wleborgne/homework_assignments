@@ -88,15 +88,14 @@ class Tablet
   # Charge increases by 1% for each second of
   # charging.
   def stop_charging
-    if @charging
-      @charging = false
-      charge_time = Time.new - @last_charge_started
+    return unless @charging # Rubocop prefers unless here
+    @charging = false
+    charge_time = Time.new - @last_charge_started
 
-      if (@charge + charge_time) >= 100
-        @charge = 100
-      else
-        @charge += charge_time.to_i
-      end
+    if (@charge + charge_time) >= 100
+      @charge = 100
+    else
+      @charge += charge_time.to_i
     end
   end
 
