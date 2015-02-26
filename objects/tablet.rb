@@ -2,7 +2,7 @@
 
 # Implements a rudimentary Tablet object
 class Tablet
-  attr_reader :brand, :os, :os_version, :volume
+  attr_reader :brand, :os, :os_version, :volume, :brightness
 
   # Initialize state with provided brand, os and os_version
   # Initialize volume, brightness and charge at 50%
@@ -11,7 +11,7 @@ class Tablet
   def initialize(brand, os, os_version)
     @brand = brand
     @os = os
-    @os_version = os_version
+    @os_version = os_version.to_f
     @volume = 50
     @brightness = 50
     @charge = 50
@@ -112,6 +112,21 @@ class Tablet
       @charge
     else
       @charge
+    end
+  end
+
+  # Upgrade the OS
+  # If the version passed to the upgrade method is
+  # less than the current version, a failure message
+  # will be returned.
+  def upgrade_os(new_version)
+    if new_version.to_f > @os_version
+      @os_version = new_version
+      "Upgrade to #{@os} v#{os_version} complete."
+    elsif new_version.to_f == @os_version
+      'Software is up to date.'
+    else
+      "Upgrade failed. Cannot install older versions of #{@os}"
     end
   end
 end
