@@ -4,6 +4,11 @@
 class Tablet
   attr_reader :brand, :os, :os_version, :volume, :brightness
 
+  # Default apps, false hash value means it is default,
+  # and will not be removed by uninstall_app method
+  DEFAULT_APPS = { 'Phone' => false, 'Messages' => false, 'Contacts' => false,
+                   'Calendar' => false }
+
   # Initialize state with provided brand, os and os_version
   # Initialize volume, brightness and charge at 50%
   # NOTE: No validation is done on parameters, so it is possible
@@ -15,6 +20,35 @@ class Tablet
     @volume = 50
     @brightness = 50
     @charge = 50
+    reset_apps
+  end
+
+  # App methods
+
+  # Return array of installed apps
+  def apps
+    @apps.keys
+  end
+
+  # Reset installed apps to default apps
+  def reset_apps
+    # Set default hash value to false, so attempts to uninstall
+    # non-existent apps will fail
+    @apps = Hash.new(false)
+    @apps.merge!(DEFAULT_APPS)
+  end
+
+  # Install app
+  def install_app(new_app_name)
+    @apps[new_app_name] = true
+  end
+
+  # Uninstall apps
+  # Only uninstall apps that are not defaults
+  # Attempting to uninstall default or non-existent apps
+  # will return false
+  def uninstall_app(app_name)
+    @apps.delete(app_name) if @apps[app_name]
   end
 
   # Volume methods

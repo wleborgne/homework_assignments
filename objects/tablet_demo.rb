@@ -5,6 +5,8 @@ my_tablet = Tablet.new('Apple', 'iOS', 7.1)
 
 puts "I am a tablet from #{my_tablet.brand},\
  running #{my_tablet.os} version #{my_tablet.os_version}."
+puts 'My current installed apps are: '
+puts "#{my_tablet.apps.join(', ')}"
 
 # Volume methods demo
 puts "Current volume: #{my_tablet.volume}%"
@@ -37,3 +39,31 @@ puts 'Attempt upgrade to earlier version:'
 puts my_tablet.upgrade_os(2.0)
 puts 'Attempt upgrade to very future version:'
 puts my_tablet.upgrade_os(11.0)
+
+# App install/uninstall methods demo
+puts 'Current installed apps:'
+puts "#{my_tablet.apps.join(', ')}"
+puts 'Install app "Amazon"'
+puts 'Installed Amazon' if my_tablet.install_app('Amazon')
+puts 'Install app "Slack"'
+puts 'Installed Slack' if my_tablet.install_app('Slack')
+puts 'Current installed apps:'
+puts "#{my_tablet.apps.join(', ')}"
+puts 'Delete app "Slack"'
+puts 'Uninstalled Slack' if my_tablet.uninstall_app('Slack')
+puts 'Current installed apps:'
+puts "#{my_tablet.apps.join(', ')}"
+puts 'Try to uninstall app "Contacts"'
+status = my_tablet.uninstall_app('Contacts')
+puts status ? 'Uninstalled Contacts' : 'Uninstall Contacts failed'
+puts 'Current installed apps:'
+puts "#{my_tablet.apps.join(', ')}"
+puts 'Try to uninstall non-existent app "FooBar"'
+status = my_tablet.uninstall_app('FooBar')
+puts status ? 'Uninstalled FooBar' : 'Uninstall FooBar failed'
+puts 'Current installed apps:'
+puts "#{my_tablet.apps.join(', ')}"
+puts 'Reset to default apps'
+my_tablet.reset_apps
+puts 'Current installed apps:'
+puts "#{my_tablet.apps.join(', ')}"
