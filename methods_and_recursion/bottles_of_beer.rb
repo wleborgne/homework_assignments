@@ -17,8 +17,9 @@ end
 def second_half(number)
   next_bottle = "#{number} bottles"
   next_bottle.chop! if number == 1
-  if number > 0
+  if number >= 0
     take_one = 'Take one down and pass it around'
+    next_bottle = 'no more bottles' if number == 0
   else
     take_one = 'Go to the store and buy some more'
     next_bottle = '99 bottles'
