@@ -9,4 +9,8 @@ class CashRegister
   def purchase(amount)
     @total += amount
   end
+
+  def pay(amount)
+    @total = amount - @total
+  end
 end
