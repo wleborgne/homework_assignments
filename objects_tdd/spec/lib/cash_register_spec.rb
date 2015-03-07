@@ -44,5 +44,21 @@ describe CashRegister do
       subject.purchase(purchase_amount)
       expect(subject.pay(payment_amount)).to eq(expected_result)
     end
+
+    it 'correctly handles underpayment as well as overpayment' do
+      purchase_1 = 3.78
+      purchase_2 = 5.22
+      total = 9.00
+      payment = 5.00
+      expect(subject.total).to eq(0.0)
+      subject.purchase(purchase_1)
+      expect(subject.total).to eq(purchase_1)
+      subject.purchase(purchase_2)
+      expect(subject.total).to eq(total)
+      expect(subject.pay(payment)).to eq('Your new total is $4.00')
+      expect(subject.total).to eq(4.00)
+      expect(subject.pay(payment)).to eq('Your change is $1.00')
+      expect(subject.total).to eq(0.0)
+    end
   end
 end
