@@ -5,4 +5,8 @@ class CashRegister
   def initialize
     @total = 0.0
   end
+
+  def purchase(amount)
+    @total += amount
+  end
 end
