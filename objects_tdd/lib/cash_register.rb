@@ -11,6 +11,8 @@ class CashRegister
   end
 
   def pay(amount)
-    @total = amount - @total
+    change = amount - @total
+    @total = 0.0
+    "Your change is $#{format('%.2f', change)}"
   end
 end
