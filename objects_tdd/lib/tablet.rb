@@ -1,6 +1,6 @@
 # Implements basic Tablet functionality
 class Tablet
-  attr_reader :brand, :os, :os_version, :volume, :brightness
+  attr_reader :brand, :os, :os_version, :volume, :brightness, :charging
 
   DEFAULT_APPS = { 'Phone' => false, 'Messages' => false,
                    'Contacts' => false, 'Calendar' => false }
@@ -13,6 +13,8 @@ class Tablet
     @os_version = version
     @volume = 50
     @brightness = 50
+    @charge = 50
+    @charging = false
     reset_apps
   end
 
@@ -78,5 +80,32 @@ class Tablet
     else
       "Upgrade failed. Cannot install older versions of #{@os}"
     end
+  end
+
+  # Charging methods
+
+  # Report charge level
+  def charge
+    if @charging
+      stop_charging
+      start_charging
+      @charge
+    else
+      @charge
+    end
+  end
+
+  # Begin charging device
+  def start_charging
+    @charge_started = Time.now
+    @charging = true
+  end
+
+  # Stop charging and return current charge level
+  def stop_charging
+    @charge unless @charging
+    @charging = false
+    charge_time = (Time.now - @charge_started).to_i
+    @charge = 100 if (@charge += charge_time) > 100
   end
 end

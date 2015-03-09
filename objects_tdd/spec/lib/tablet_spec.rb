@@ -156,4 +156,30 @@ describe Tablet do
       expect(subject.os_version).to eq(7.1)
     end
   end
+
+  context 'Charging functions' do
+    it '#charge reports current charge percentage, initially 50' do
+      expect(subject.charge).to eq(50)
+    end
+
+    it '#start_charging begins to charge device' do
+      expect(subject.start_charging).to be_truthy
+    end
+
+    it '#stop_charging stops charging process' do
+      subject.start_charging
+      sleep(10)
+      subject.stop_charging
+      expect(subject.charge).to eq(60)
+    end
+
+    it '#charge will report charge level during charging' do
+      subject.start_charging
+      sleep(5)
+      expect(subject.charge).to eq(55)
+      sleep(5)
+      subject.stop_charging
+      expect(subject.charge).to eq(60)
+    end
+  end
 end
