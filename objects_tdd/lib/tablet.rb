@@ -1,6 +1,6 @@
 # Implements basic Tablet functionality
 class Tablet
-  attr_reader :brand, :os, :os_version, :volume
+  attr_reader :brand, :os, :os_version, :volume, :brightness
 
   DEFAULT_APPS = { 'Phone' => false, 'Messages' => false,
                    'Contacts' => false, 'Calendar' => false }
@@ -12,6 +12,7 @@ class Tablet
     @os = os
     @os_version = version
     @volume = 50
+    @brightness = 50
     reset_apps
   end
 
@@ -47,13 +48,23 @@ class Tablet
 
   # Reduce volume
   def volume_down(amount = 1)
-    @volume -= amount
-    mute if @volume < 0
+    mute if (@volume -= amount) < 0
   end
 
   # Raise volume
   def volume_up(amount = 1)
-    @volume += amount
-    @volume = 100 if @volume > 100
+    @volume = 100 if (@volume += amount) > 100
+  end
+
+  # Screen brightness management
+
+  # Increase brightness
+  def brightness_up(amount = 1)
+    @brightness = 100 if (@brightness += amount) > 100
+  end
+
+  # Decrease brightness
+  def brightness_down(amount = 1)
+    @brightness = 10 if (@brightness -= amount) < 10
   end
 end

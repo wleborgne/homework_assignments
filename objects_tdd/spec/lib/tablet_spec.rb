@@ -61,7 +61,7 @@ describe Tablet do
   end
 
   context 'Volume management' do
-    it '@volume has a default value of 50' do
+    it '#volume has a default value of 50' do
       expect(subject.volume).to eq(50)
     end
 
@@ -99,6 +99,42 @@ describe Tablet do
     it 'has a maximum volume of 100' do
       subject.volume_up(90)
       expect(subject.volume).to eq(100)
+    end
+  end
+
+  context 'Screen brightness management' do
+    it '#brightness has a default value of 50' do
+      expect(subject.brightness).to eq(50)
+    end
+
+    it '#brightness_up increases brightness by 1% with no parameter' do
+      subject.brightness_up
+      expect(subject.brightness).to eq(51)
+    end
+
+    it '#brightness_up increases brightness by amount% if passed amount' do
+      subject.brightness_up(20)
+      expect(subject.brightness).to eq(70)
+    end
+
+    it 'has a maximum brightness of 100' do
+      subject.brightness_up(80)
+      expect(subject.brightness).to eq(100)
+    end
+
+    it '#brightness_down reduces brightness by 1% with no parameter' do
+      subject.brightness_down
+      expect(subject.brightness).to eq(49)
+    end
+
+    it '#brightness_down reduces brightness by amount% if passed amount' do
+      subject.brightness_down(20)
+      expect(subject.brightness).to eq(30)
+    end
+
+    it 'has a minimum brightness of 10' do
+      subject.brightness_down(45)
+      expect(subject.brightness).to eq(10)
     end
   end
 end
