@@ -137,4 +137,23 @@ describe Tablet do
       expect(subject.brightness).to eq(10)
     end
   end
+
+  context 'OS upgrade' do
+    it '#upgrade_os will upgrade if the new version is greater than current' do
+      expect(subject.upgrade_os(10.0)).to eq('Upgrade to iOS v10.0 complete.')
+      expect(subject.os_version).to eq(10.0)
+    end
+
+    it '#upgrade_os will return up-to-date message if new version = current' do
+      message = 'Software is up to date.'
+      expect(subject.upgrade_os(subject.os_version)).to eq(message)
+      expect(subject.os_version).to eq(7.1)
+    end
+
+    it '#upgrade_os will not install lower versions' do
+      message = 'Upgrade failed. Cannot install older versions of iOS'
+      expect(subject.upgrade_os(4.0)).to eq(message)
+      expect(subject.os_version).to eq(7.1)
+    end
+  end
 end

@@ -67,4 +67,16 @@ class Tablet
   def brightness_down(amount = 1)
     @brightness = 10 if (@brightness -= amount) < 10
   end
+
+  # OS upgrade
+  def upgrade_os(new_version)
+    if new_version > @os_version
+      @os_version = new_version
+      "Upgrade to #{@os} v#{@os_version} complete."
+    elsif @os_version == new_version
+      'Software is up to date.'
+    else
+      "Upgrade failed. Cannot install older versions of #{@os}"
+    end
+  end
 end
