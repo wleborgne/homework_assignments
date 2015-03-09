@@ -1,6 +1,6 @@
 # Implements basic Tablet functionality
 class Tablet
-  attr_reader :brand, :os, :os_version
+  attr_reader :brand, :os, :os_version, :volume
 
   DEFAULT_APPS = { 'Phone' => false, 'Messages' => false,
                    'Contacts' => false, 'Calendar' => false }
@@ -11,6 +11,7 @@ class Tablet
     @brand = brand
     @os = os
     @os_version = version
+    @volume = 50
     reset_apps
   end
 
@@ -35,5 +36,24 @@ class Tablet
   def reset_apps
     @apps = Hash.new(false)
     @apps.merge!(DEFAULT_APPS)
+  end
+
+  # Volume management
+
+  # Mute volume
+  def mute
+    @volume = 0
+  end
+
+  # Reduce volume
+  def volume_down(amount = 1)
+    @volume -= amount
+    mute if @volume < 0
+  end
+
+  # Raise volume
+  def volume_up(amount = 1)
+    @volume += amount
+    @volume = 100 if @volume > 100
   end
 end

@@ -7,7 +7,7 @@ describe Tablet do
   let(:version) { 7.1 }
   let(:subject) { Tablet.new(brand, os, version) }
 
-  context 'The tablet' do
+  context do
     it 'should be a Tablet' do
       expect(subject).to be_a(Tablet)
     end
@@ -25,7 +25,7 @@ describe Tablet do
     end
   end
 
-  context 'can report and manage apps' do
+  context 'App Management' do
     let(:default_apps) { %w(Phone Messages Contacts Calendar) }
 
     it 'has 4 default #apps, Phone, Messages, Contacts, Calendar' do
@@ -57,6 +57,48 @@ describe Tablet do
       expect(subject.apps.length).to eq(6)
       subject.reset_apps
       expect(subject.apps).to contain_exactly(*default_apps)
+    end
+  end
+
+  context 'Volume management' do
+    it '@volume has a default value of 50' do
+      expect(subject.volume).to eq(50)
+    end
+
+    it '#mute reduces volume to 0' do
+      subject.mute
+      expect(subject.volume).to eq(0)
+    end
+
+    it '#volume_down reduces volume by 1% with no parameter' do
+      subject.volume_down
+      expect(subject.volume).to eq(49)
+    end
+
+    it '#volume_down reduces volume by amount% if passed amount' do
+      subject.volume_down(20)
+      expect(subject.volume).to eq(30)
+    end
+
+    it 'has a minimum volume of 0' do
+      subject.mute
+      subject.volume_down
+      expect(subject.volume).to eq(0)
+    end
+
+    it '#volume_up increases volume by 1% with no parameter' do
+      subject.volume_up
+      expect(subject.volume).to eq(51)
+    end
+
+    it '#volume_up increases volume by amount% if passed amount' do
+      subject.volume_up(20)
+      expect(subject.volume).to eq(70)
+    end
+
+    it 'has a maximum volume of 100' do
+      subject.volume_up(90)
+      expect(subject.volume).to eq(100)
     end
   end
 end
