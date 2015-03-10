@@ -3,7 +3,6 @@
 # class CashRegister
 # Implements a simple cash register
 class CashRegister
-
   # Initial total is zero
   def initialize
     @total = 0.0
