@@ -27,6 +27,7 @@ class Tablet
 
   # Install a new app
   def install_app(app_name)
+    return if @apps.key?(app_name)
     @apps[app_name] = true
   end
 

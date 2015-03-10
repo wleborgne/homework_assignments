@@ -6,6 +6,7 @@ describe Tablet do
   let(:os) { 'iOS' }
   let(:version) { 7.1 }
   let(:subject) { Tablet.new(brand, os, version) }
+  let(:default_apps) { %w(Phone Messages Contacts Calendar) }
 
   context do
     it 'should be a Tablet' do
@@ -26,8 +27,6 @@ describe Tablet do
   end
 
   context 'App Management' do
-    let(:default_apps) { %w(Phone Messages Contacts Calendar) }
-
     it 'has 4 default #apps, Phone, Messages, Contacts, Calendar' do
       apps = subject.apps
       expect(apps.length).to be(4)
@@ -180,6 +179,14 @@ describe Tablet do
       sleep(5)
       subject.stop_charging
       expect(subject.charge).to eq(60)
+    end
+  end
+
+  context 'Regression tests' do
+    it 'will not uninstall default apps as per bug #90059014' do
+      subject.install_app('Phone')
+      subject.uninstall_app('Phone')
+      expect(subject.apps).to contain_exactly(*default_apps)
     end
   end
 end
