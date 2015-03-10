@@ -40,6 +40,8 @@ class Tablet
 
   # Install app
   def install_app(new_app_name)
+    # If the app is already installed, return
+    return if @apps.key?(new_app_name)
     @apps[new_app_name] = true
   end
 
